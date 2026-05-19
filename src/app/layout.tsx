@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
+import { company } from "@/lib/company";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,6 +38,34 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "Electrician",
+  "name": company.name,
+  "image": "/hero.png",
+  "description": "Expert Électricien, Fibre Optique, IRVE, VMC et Portail Automatique.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "FR",
+    "addressRegion": "Auvergne-Rhône-Alpes",
+    "addressLocality": company.city,
+    "postalCode": company.postalCode,
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": "46.0608", "longitude": "6.5790" },
+  "areaServed": { "@type": "AdministrativeArea", "name": "Vallée de l'Arve, Haute-Savoie" },
+  "sameAs": [company.facebook],
+  "url": SITE_URL,
+  ...(company.phoneHref ? { telephone: company.phoneHref } : {}),
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "00:00",
+      "closes": "23:59",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,44 +76,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Electrician",
-              "name": "La Symphonie Électrique",
-              "image": "/hero.png",
-              "description": "Expert Électricien, Fibre Optique et Mobilité Électrique.",
-              "address": {
-                "@type": "PostalAddress",
-                "addressCountry": "FR",
-                "addressRegion": "Auvergne-Rhône-Alpes",
-                "addressLocality": "Cluses",
-                "postalCode": "74300"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "46.0608",
-                "longitude": "6.5790"
-              },
-              "areaServed": {
-                "@type": "AdministrativeArea",
-                "name": "Vallée de l'Arve, Haute-Savoie"
-              },
-              "sameAs": [
-                "https://www.facebook.com/profile.php?id=61575041172022"
-              ],
-              "url": "https://lasymphonieelectrique.fr",
-              "telephone": "+3308841662",
-              "openingHoursSpecification": [
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                  "opens": "00:00",
-                  "closes": "23:59"
-                }
-              ]
-            })
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body>

@@ -16,6 +16,7 @@ import FAQ from '@/components/FAQ';
 import AreasServed from '@/components/AreasServed';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import HowItWorks from '@/components/HowItWorks';
+import { company } from '@/lib/company';
 
 type Review = { id: number; name: string; rating: number; comment: string };
 
@@ -282,9 +283,15 @@ export default function HomeContent({ reviews }: { reviews: Review[] }) {
             <div>
               <h3 className="text-gold">DÉPANNAGE URGENT</h3>
               <p style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>24H/24 — 7J/7</p>
-              <a href="tel:+3308841662" className="btn btn-primary" style={{ marginTop: '10px' }}>
-                <Phone size={18} /> +33 08 84 16 62
-              </a>
+              {company.phone ? (
+                <a href={`tel:${company.phoneHref}`} className="btn btn-primary" style={{ marginTop: '10px' }}>
+                  <Phone size={18} /> {company.phone}
+                </a>
+              ) : (
+                <Link href="/contact" className="btn btn-primary" style={{ marginTop: '10px' }}>
+                  <Phone size={18} /> Nous joindre
+                </Link>
+              )}
             </div>
 
             <div className="text-center">

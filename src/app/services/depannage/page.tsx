@@ -1,6 +1,7 @@
 import { Wrench, CheckCircle2, Clock } from 'lucide-react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
   title: 'Dépannage Électrique 24/7 — Intervention Rapide',
@@ -45,7 +46,15 @@ export default function DepannageService() {
           <div className="card" style={{ padding: '40px', textAlign: 'center', border: '1px solid var(--error)' }}>
             <h3 style={{ color: 'var(--error)' }}>Besoin d'un dépanneur ?</h3>
             <p>Intervention rapide garantie.</p>
-            <a href="tel:+330123456789" className="btn btn-primary" style={{ width: '100%', marginTop: '20px', backgroundColor: 'var(--error)', borderColor: 'var(--error)', color: 'white' }}>Appeler le 01 23 45 67 89</a>
+            {company.phone ? (
+              <a href={`tel:${company.phoneHref}`} className="btn btn-primary" style={{ width: '100%', marginTop: '20px', backgroundColor: 'var(--error)', borderColor: 'var(--error)', color: 'white' }}>
+                Appeler le {company.phone}
+              </a>
+            ) : (
+              <Link href="/contact" className="btn btn-primary" style={{ width: '100%', marginTop: '20px', backgroundColor: 'var(--error)', borderColor: 'var(--error)', color: 'white' }}>
+                Demander un dépannage
+              </Link>
+            )}
           </div>
         </div>
       </div>

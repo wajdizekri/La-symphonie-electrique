@@ -11,6 +11,11 @@ export const company = {
   email: process.env.NEXT_PUBLIC_COMPANY_EMAIL || 'contact@lasymphonieelectrique.fr',
   phone: process.env.NEXT_PUBLIC_COMPANY_PHONE || '',
   phoneHref: (process.env.NEXT_PUBLIC_COMPANY_PHONE || '').replace(/[^\d+]/g, ''),
+  // Numéro WhatsApp au format international sans + ni espaces (ex: 33612345678).
+  // Fallback : dérivé du téléphone si non précisé.
+  whatsapp:
+    (process.env.NEXT_PUBLIC_COMPANY_WHATSAPP || process.env.NEXT_PUBLIC_COMPANY_PHONE || '')
+      .replace(/[^\d]/g, ''),
   address: process.env.NEXT_PUBLIC_COMPANY_ADDRESS || '74300 Cluses, Haute-Savoie',
   city: process.env.NEXT_PUBLIC_COMPANY_CITY || 'Cluses',
   postalCode: process.env.NEXT_PUBLIC_COMPANY_POSTAL || '74300',

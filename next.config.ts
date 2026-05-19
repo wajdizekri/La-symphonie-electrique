@@ -28,6 +28,10 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Build autonome (node_modules minimal) — idéal VPS / Docker.
+  output: 'standalone',
+  // better-sqlite3 = module natif : ne pas le bundler, le charger depuis node_modules.
+  serverExternalPackages: ['better-sqlite3'],
   experimental: {
     serverActions: {
       bodySizeLimit: '30mb',
