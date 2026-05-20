@@ -2,6 +2,7 @@ import db from '@/lib/db';
 import { Users, FileText, Briefcase, TrendingUp, ShieldAlert, ArrowRight, ExternalLink, AlertCircle, Crown, Star } from 'lucide-react';
 import Link from 'next/link';
 import RevenueChart from './RevenueChart';
+import NewProjectButton from './NewProjectButton';
 
 export default function AdminDashboard() {
   // Fetch stats from DB
@@ -42,6 +43,11 @@ export default function AdminDashboard() {
   };
 
   const activeProjects = db.prepare("SELECT COUNT(*) as count FROM projects WHERE status = 'in_progress'").get() as { count: number };
+
+  // Liste des clients (pour le modal "Nouveau chantier")
+  const clientsForPicker = db.prepare(
+    'SELECT id, name, email FROM clients ORDER BY name ASC LIMIT 500'
+  ).all() as { id: number; name: string; email: string | null }[];
 
   // Revenu mensuel sur 12 mois glissants
   const revenueByMonthRows = db.prepare(`
@@ -101,7 +107,7 @@ export default function AdminDashboard() {
           <p style={{ color: 'var(--text-secondary)' }}>Vue d'ensemble de l'écosystème <span className="text-gold">Symphonie Électrique</span>.</p>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
-          <Link href="/admin/projects" className="btn btn-secondary" style={{ fontSize: '0.8rem', padding: '8px 16px' }}>Nouveau Chantier</Link>
+          <NewProjectButton clients={clientsForPicker} />
           <Link href="/" className="btn btn-primary" style={{ fontSize: '0.8rem', padding: '8px 16px' }}>Voir le Site <ExternalLink size={14} /></Link>
         </div>
       </header>

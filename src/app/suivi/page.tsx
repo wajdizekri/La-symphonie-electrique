@@ -3,7 +3,7 @@
 import Navbar from '@/components/Navbar';
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Loader2, CheckCircle, Clock, Construction, CreditCard, PartyPopper } from 'lucide-react';
+import { Search, Loader2, CheckCircle, Clock, Construction, CreditCard, PartyPopper, Mail, Send } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 
 type ProjectStatus = 'planning' | 'in_progress' | 'completed';
@@ -42,6 +42,30 @@ function SuiviContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [paying, setPaying] = useState(false);
+  const [showResend, setShowResend] = useState(false);
+  const [resendEmail, setResendEmail] = useState('');
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendDone, setResendDone] = useState(false);
+  const [resendError, setResendError] = useState('');
+
+  const handleResend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResendLoading(true); setResendError(''); setResendDone(false);
+    try {
+      const res = await fetch('/api/projects/resend-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: resendEmail }),
+      });
+      const data = await res.json();
+      if (res.ok) setResendDone(true);
+      else setResendError(data.error || 'Erreur');
+    } catch {
+      setResendError('Erreur réseau.');
+    } finally {
+      setResendLoading(false);
+    }
+  };
 
   const fetchProject = useCallback(async (t: string) => {
     setLoading(true);
@@ -143,6 +167,56 @@ function SuiviContent() {
               </button>
             </form>
             {error && <p style={{ color: 'var(--error)', marginTop: '10px', fontSize: '0.875rem' }}>{error}</p>}
+
+            {/* Renvoyer le lien par email */}
+            <div style={{ marginTop: '15px', textAlign: 'center', fontSize: '0.85rem' }}>
+              {!showResend ? (
+                <button
+                  type="button"
+                  onClick={() => { setShowResend(true); setResendDone(false); setResendError(''); }}
+                  style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.85rem' }}
+                >
+                  Je n&apos;ai plus le lien — recevoir mes liens par email
+                </button>
+              ) : resendDone ? (
+                <p style={{ color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', margin: 0 }}>
+                  <CheckCircle size={16} />
+                  Si un projet correspond à cet email, vous allez recevoir les liens.
+                </p>
+              ) : (
+                <form onSubmit={handleResend} style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <Mail size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                    <input
+                      type="email"
+                      required
+                      placeholder="Votre email"
+                      value={resendEmail}
+                      onChange={(e) => setResendEmail(e.target.value)}
+                      autoFocus
+                      style={{
+                        width: '100%', padding: '10px 12px 10px 38px',
+                        borderRadius: 'var(--radius-md)',
+                        backgroundColor: 'var(--bg-primary)',
+                        border: '1px solid var(--border)',
+                        color: 'white', fontSize: '0.875rem',
+                      }}
+                    />
+                  </div>
+                  <button type="submit" disabled={resendLoading} className="btn btn-primary" style={{ padding: '0 14px', fontSize: '0.85rem' }}>
+                    {resendLoading ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowResend(false)}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0 6px', fontSize: '0.85rem' }}
+                  >
+                    Annuler
+                  </button>
+                </form>
+              )}
+              {resendError && <p style={{ color: 'var(--error)', marginTop: '8px', fontSize: '0.8rem' }}>{resendError}</p>}
+            </div>
           </div>
 
           {project && (

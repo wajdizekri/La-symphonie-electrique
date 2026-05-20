@@ -3,7 +3,7 @@
 import db from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { ProjectUpdateSchema, ClientUpdateSchema, ReviewSubmitSchema, formatZodError } from '@/lib/validators';
+import { ProjectUpdateSchema, ProjectCreateSchema, ClientUpdateSchema, ReviewSubmitSchema, formatZodError } from '@/lib/validators';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { rateLimit } from '@/lib/rate-limit';
@@ -208,6 +208,33 @@ export async function updateProject(formData: FormData) {
   } catch (error: any) {
     console.error('Failed to update project:', error);
     return { success: false, error: error.message };
+  }
+}
+
+export async function createProject(input: { clientId: number; title: string; description?: string }) {
+  const parsed = ProjectCreateSchema.safeParse(input);
+  if (!parsed.success) {
+    return { success: false as const, error: formatZodError(parsed.error) };
+  }
+  const { clientId, title, description } = parsed.data;
+
+  const client = db.prepare('SELECT id FROM clients WHERE id = ?').get(clientId);
+  if (!client) {
+    return { success: false as const, error: `Client ${clientId} introuvable.` };
+  }
+
+  try {
+    const trackingToken = randomUUID();
+    const result = db.prepare(
+      "INSERT INTO projects (client_id, title, description, status, tracking_token) VALUES (?, ?, ?, 'planning', ?)"
+    ).run(clientId, title, description || null, trackingToken);
+
+    revalidatePath('/admin/projects');
+    revalidatePath('/admin/dashboard');
+    return { success: true as const, projectId: Number(result.lastInsertRowid) };
+  } catch (error: any) {
+    console.error('Failed to create project:', error);
+    return { success: false as const, error: error.message };
   }
 }
 
