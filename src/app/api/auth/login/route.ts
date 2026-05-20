@@ -27,9 +27,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Identifiants invalides.' }, { status: 401 });
     }
 
+    if (user.status === 'unverified' || !user.email_verified_at) {
+      return NextResponse.json({
+        error: 'Votre email n\'est pas encore confirmé. Vérifiez votre boîte de réception (et vos spams).',
+      }, { status: 403 });
+    }
+
     if (user.status !== 'approved') {
-      return NextResponse.json({ 
-        error: 'Votre compte est en attente de validation par l\'administrateur principal (Wajdi).' 
+      return NextResponse.json({
+        error: 'Votre compte est en attente de validation par l\'administrateur.',
       }, { status: 403 });
     }
 

@@ -8,7 +8,12 @@ if (!rawSecret) {
 }
 const SECRET_KEY = new TextEncoder().encode(rawSecret);
 
-const PUBLIC_ADMIN_PAGES = new Set(['/admin/login', '/admin/register']);
+const PUBLIC_ADMIN_PAGES = new Set([
+  '/admin/login',
+  '/admin/register',
+  '/admin/forgot-password',
+  '/admin/reset-password',
+]);
 const PUBLIC_ADMIN_API = new Set(['/api/auth/login', '/api/auth/register']);
 
 export async function proxy(request: NextRequest) {

@@ -40,6 +40,20 @@ export const PaymentCreateSchema = z.object({
   amount: z.number().positive().max(1_000_000),
 });
 
+export const ForgotPasswordSchema = z.object({
+  email: z.string().trim().toLowerCase().email('Email invalide'),
+});
+
+export const ResetPasswordSchema = z.object({
+  token: z.string().min(20, 'Lien invalide').max(200),
+  password: z
+    .string()
+    .min(8, 'Le mot de passe doit faire au moins 8 caractères')
+    .max(200)
+    .regex(/[A-Za-z]/, 'Doit contenir au moins une lettre')
+    .regex(/[0-9]/, 'Doit contenir au moins un chiffre'),
+});
+
 export const ReviewSubmitSchema = z.object({
   name: z.string().trim().min(2, 'Nom trop court').max(80),
   rating: z.number().int().min(1, 'Note de 1 à 5').max(5),

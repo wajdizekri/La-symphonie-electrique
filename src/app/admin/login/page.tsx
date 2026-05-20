@@ -1,17 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Lock, User, Loader2, ArrowLeft } from 'lucide-react';
+import { Lock, User, Loader2, CheckCircle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export default function AdminLogin() {
+function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const verified = searchParams.get('verified') === '1';
+  const reset = searchParams.get('reset') === '1';
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +76,24 @@ export default function AdminLogin() {
             <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Identifiez-vous pour gérer votre activité.</p>
           </div>
 
+          {(verified || reset) && (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '10px',
+              padding: '12px 14px', marginBottom: '20px',
+              backgroundColor: 'rgba(34, 197, 94, 0.1)',
+              border: '1px solid var(--success)',
+              borderRadius: 'var(--radius-md)',
+              color: 'var(--success)', fontSize: '0.85rem',
+            }}>
+              <CheckCircle size={18} />
+              <span>
+                {verified
+                  ? "Email confirmé ! Ton compte est en attente d'approbation par l'administrateur."
+                  : 'Mot de passe mis à jour. Connecte-toi avec ton nouveau mot de passe.'}
+              </span>
+            </div>
+          )}
+
           <form onSubmit={handleLogin} style={{ display: 'grid', gap: '20px' }}>
             <div style={{ display: 'grid', gap: '8px' }}>
               <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Email</label>
@@ -129,8 +150,14 @@ export default function AdminLogin() {
           </form>
 
           {error && <p style={{ color: 'var(--error)', marginTop: '20px', textAlign: 'center', fontSize: '0.875rem' }}>{error}</p>}
-          
-          <div style={{ marginTop: '25px', textAlign: 'center', fontSize: '0.85rem' }}>
+
+          <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '0.85rem' }}>
+            <Link href="/admin/forgot-password" style={{ color: 'var(--text-muted)' }}>
+              Mot de passe oublié ?
+            </Link>
+          </div>
+
+          <div style={{ marginTop: '15px', textAlign: 'center', fontSize: '0.85rem', paddingTop: '15px', borderTop: '1px solid var(--border)' }}>
             <Link href="/admin/register" style={{ color: 'var(--accent-gold)' }}>Créer un compte administrateur</Link>
           </div>
         </div>
@@ -155,5 +182,13 @@ export default function AdminLogin() {
         </div>
       </motion.div>
     </main>
+  );
+}
+
+export default function AdminLogin() {
+  return (
+    <Suspense fallback={<main style={{ minHeight: '100vh' }} />}>
+      <LoginForm />
+    </Suspense>
   );
 }

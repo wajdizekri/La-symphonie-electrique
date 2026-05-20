@@ -108,4 +108,23 @@ if (orphans.length > 0) {
   tx();
 }
 
+// Migration: vérification email + réinitialisation mot de passe.
+const userCols = db.prepare("PRAGMA table_info(users)").all() as { name: string }[];
+if (!userCols.some(c => c.name === 'email_verification_token')) {
+  db.exec("ALTER TABLE users ADD COLUMN email_verification_token TEXT");
+}
+if (!userCols.some(c => c.name === 'email_verified_at')) {
+  db.exec("ALTER TABLE users ADD COLUMN email_verified_at DATETIME");
+}
+if (!userCols.some(c => c.name === 'password_reset_token')) {
+  db.exec("ALTER TABLE users ADD COLUMN password_reset_token TEXT");
+}
+if (!userCols.some(c => c.name === 'password_reset_expires')) {
+  db.exec("ALTER TABLE users ADD COLUMN password_reset_expires DATETIME");
+}
+db.exec("CREATE INDEX IF NOT EXISTS idx_users_email_verif_token ON users(email_verification_token)");
+db.exec("CREATE INDEX IF NOT EXISTS idx_users_password_reset_token ON users(password_reset_token)");
+// Comptes existants : marqués déjà vérifiés (sinon ils seraient bloqués au login).
+db.prepare("UPDATE users SET email_verified_at = COALESCE(email_verified_at, created_at) WHERE email_verified_at IS NULL").run();
+
 export default db;
