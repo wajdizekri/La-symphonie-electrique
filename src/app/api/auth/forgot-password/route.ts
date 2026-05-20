@@ -32,9 +32,12 @@ export async function POST(request: Request) {
   });
 
   try {
-    const user = db.prepare('SELECT id, name, email FROM users WHERE email = ?').get(email) as
-      | { id: number; name: string; email: string }
-      | undefined;
+    // On limite aux comptes APPROUVÉS : pas de reset pour un compte non vérifié
+    // (qui n'a pas encore accès) ni en attente d'approbation. La réponse reste
+    // générique pour ne pas révéler le statut.
+    const user = db.prepare(
+      "SELECT id, name, email FROM users WHERE email = ? AND status = 'approved' AND email_verified_at IS NOT NULL"
+    ).get(email) as { id: number; name: string; email: string } | undefined;
     if (!user) return genericResponse;
 
     const token = randomBytes(32).toString('hex');
