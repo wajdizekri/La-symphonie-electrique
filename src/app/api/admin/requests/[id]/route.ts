@@ -5,7 +5,7 @@ import { Resend } from 'resend';
 import { RequestStatusSchema, formatZodError } from '@/lib/validators';
 import { sendSms } from '@/lib/sms';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
 export async function PATCH(
   request: Request,

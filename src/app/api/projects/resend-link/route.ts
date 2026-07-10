@@ -4,7 +4,7 @@ import { rateLimit, clientIp } from '@/lib/rate-limit';
 import { ResendTrackingSchema, formatZodError } from '@/lib/validators';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 const FROM = process.env.RESEND_FROM_EMAIL || 'La Symphonie Électrique <onboarding@resend.dev>';
 
 export async function POST(request: Request) {

@@ -5,7 +5,7 @@ import { ForgotPasswordSchema, formatZodError } from '@/lib/validators';
 import { Resend } from 'resend';
 import { randomBytes } from 'node:crypto';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 const FROM = process.env.RESEND_FROM_EMAIL || 'La Symphonie Électrique <onboarding@resend.dev>';
 const RESET_TTL_MS = 60 * 60 * 1000; // 1h
 
