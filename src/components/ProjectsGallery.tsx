@@ -15,7 +15,7 @@ type Project = {
 const demoProjects: Project[] = [
   {
     image: '/projects/borne.png',
-    title: 'Installation borne IRVE 7,4 kW',
+    title: 'Installation borne IRVE jusqu\'à 22 kW',
     category: 'Mobilité Électrique',
     location: 'Sallanches',
   },

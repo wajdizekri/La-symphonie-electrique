@@ -20,12 +20,11 @@ export default function Projets() {
 
   const projects = [
     {
-      title: 'Installation Borne IRVE 7,4 kW',
+      title: 'Installation Borne IRVE jusqu\'à 22 kW',
       client: 'Particulier — Sallanches',
-      description: 'Pose d\'une borne de recharge murale 7,4 kW dans un garage individuel, avec tirage de ligne dédiée depuis le tableau, protection différentielle type A et mise en service.',
+      description: 'Pose d\'une borne de recharge murale jusqu\'à 22 kW dans un garage individuel, avec tirage de ligne dédiée depuis le tableau, protection différentielle type A et mise en service.',
       image: '/projects/borne.png',
       tags: ['Mobilité Électrique', 'IRVE'],
-      result: 'Borne connectée pilotable au smartphone, dossier ADVENIR géré de A à Z.'
     },
     {
       title: 'Rénovation Tableau Électrique',
@@ -112,12 +111,14 @@ export default function Projets() {
                     <h2 style={{ fontSize: '2.5rem', marginBottom: '20px', lineHeight: 1.1 }}>{project.title}</h2>
                     <p style={{ color: 'var(--text-muted)', marginBottom: '15px' }}>Client : {project.client}</p>
                     <p style={{ fontSize: '1.1rem', marginBottom: '25px', lineHeight: 1.6 }}>{project.description}</p>
-                    <div style={{ display: 'grid', gap: '12px', marginBottom: '35px' }}>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: 'var(--text-primary)', backgroundColor: 'rgba(250, 204, 21, 0.05)', padding: '15px', borderRadius: 'var(--radius-md)', border: '1px dashed var(--accent-gold)' }}>
-                        <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0 }} />
-                        <span><strong>Résultat :</strong> {project.result}</span>
+                    {project.result && (
+                      <div style={{ display: 'grid', gap: '12px', marginBottom: '35px' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: 'var(--text-primary)', backgroundColor: 'rgba(250, 204, 21, 0.05)', padding: '15px', borderRadius: 'var(--radius-md)', border: '1px dashed var(--accent-gold)' }}>
+                          <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0 }} />
+                          <span><strong>Résultat :</strong> {project.result}</span>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <Link href="/contact" className="btn btn-primary">
                       Demander un projet similaire <ArrowRight size={18} />
                     </Link>
@@ -166,12 +167,14 @@ export default function Projets() {
                     <h2 style={{ fontSize: '2.5rem', marginBottom: '20px', lineHeight: 1.1 }}>{project.title}</h2>
                     <p style={{ color: 'var(--text-muted)', marginBottom: '15px' }}>Client : {project.client}</p>
                     <p style={{ fontSize: '1.1rem', marginBottom: '25px', lineHeight: 1.6 }}>{project.description}</p>
-                    <div style={{ display: 'grid', gap: '12px', marginBottom: '35px' }}>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: 'var(--text-primary)', backgroundColor: 'rgba(250, 204, 21, 0.05)', padding: '15px', borderRadius: 'var(--radius-md)', border: '1px dashed var(--accent-gold)' }}>
-                        <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0 }} />
-                        <span><strong>Résultat :</strong> {project.result}</span>
+                    {project.result && (
+                      <div style={{ display: 'grid', gap: '12px', marginBottom: '35px' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: 'var(--text-primary)', backgroundColor: 'rgba(250, 204, 21, 0.05)', padding: '15px', borderRadius: 'var(--radius-md)', border: '1px dashed var(--accent-gold)' }}>
+                          <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0 }} />
+                          <span><strong>Résultat :</strong> {project.result}</span>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <Link href="/contact" className="btn btn-primary">
                       Demander un projet similaire <ArrowRight size={18} />
                     </Link>
