@@ -15,7 +15,7 @@ type Counter = {
 const counters: Counter[] = [
   { icon: <Briefcase size={32} />, value: 500, suffix: '+', label: 'Chantiers réalisés' },
   { icon: <Award size={32} />, value: 5, suffix: ' ans', label: "D'expérience" },
-  { icon: <Star size={32} />, value: 7.9, decimals: 1, suffix: '/10', label: 'Note clients moyenne' },
+  { icon: <Star size={32} />, value: 10, decimals: 0, suffix: '/10', label: 'Note clients moyenne' },
   { icon: <Users size={32} />, value: 400, suffix: '+', label: 'Clients satisfaits' },
 ];
 
