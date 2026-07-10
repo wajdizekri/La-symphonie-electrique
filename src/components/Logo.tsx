@@ -11,7 +11,7 @@ export default function Logo({ size = 32, priority = false }: { size?: number; p
         height: size,
         borderRadius: '50%',
         overflow: 'hidden',
-        backgroundColor: '#0a1428',
+        backgroundColor: '#ffffff',
         border: '2px solid var(--accent-gold)',
         boxShadow: '0 0 12px rgba(250, 204, 21, 0.25)',
         flexShrink: 0,
