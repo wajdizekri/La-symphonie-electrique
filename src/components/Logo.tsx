@@ -9,7 +9,7 @@ export default function Logo({ size = 32, priority = false }: { size?: number; p
         justifyContent: 'center',
         width: size,
         height: size,
-        borderRadius: '50%',
+        borderRadius: '14px',
         overflow: 'hidden',
         backgroundColor: '#ffffff',
         border: '2px solid var(--accent-gold)',
@@ -23,7 +23,7 @@ export default function Logo({ size = 32, priority = false }: { size?: number; p
         width={size}
         height={size}
         priority={priority}
-        style={{ objectFit: 'contain', width: '85%', height: '85%' }}
+        style={{ objectFit: 'contain', width: '90%', height: '90%' }}
       />
     </span>
   );

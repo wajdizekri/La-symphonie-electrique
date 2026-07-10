@@ -27,7 +27,7 @@ export default function Navbar() {
           fontWeight: 800,
           color: 'var(--accent-gold)'
         }}>
-          <Logo size={40} priority />
+          <Logo size={56} priority />
           <span style={{ color: 'var(--text-primary)' }}>LA SYMPHONIE</span>
           <span style={{ color: 'var(--accent-gold)' }}>ÉLECTRIQUE</span>
         </Link>
