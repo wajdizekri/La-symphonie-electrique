@@ -49,6 +49,8 @@ npm run build
 cp -r node_modules/better-sqlite3 .next/standalone/node_modules/ 2>/dev/null || true
 cp -r public .next/standalone/public
 cp -r .next/static .next/standalone/.next/static
+# Base unique : standalone pointe vers la base racine (le build régénère standalone et efface le lien)
+ln -sf "$(pwd)/database.sqlite" .next/standalone/database.sqlite
 
 echo "==> 5/6 Démarrage avec pm2"
 export JWT_SECRET="$(grep -E '^JWT_SECRET=' .env.local | cut -d= -f2-)"
