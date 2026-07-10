@@ -91,6 +91,12 @@ export default function Footer() {
                   <a href={`tel:${company.phoneHref}`} style={{ color: 'inherit', textDecoration: 'none' }}>{company.phone}</a>
                 </li>
               )}
+              {company.phone2 && (
+                <li style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <Phone size={16} className="text-gold" />
+                  <a href={`tel:${company.phoneHref2}`} style={{ color: 'inherit', textDecoration: 'none' }}>{company.phone2}</a>
+                </li>
+              )}
               <li style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 <Mail size={16} className="text-gold" />
                 <a href={`mailto:${company.email}`} style={{ color: 'inherit', textDecoration: 'none' }}>{company.email}</a>

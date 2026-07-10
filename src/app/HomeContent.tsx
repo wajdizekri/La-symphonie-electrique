@@ -305,6 +305,8 @@ export default function HomeContent({ reviews }: { reviews: Review[] }) {
             <div style={{ textAlign: 'right' }}>
               <h3 className="text-gold">CONTACT</h3>
               <p>Lasymphonie.e@gmail.com</p>
+              <p><a href={`tel:${company.phoneHref}`} style={{ color: 'inherit', textDecoration: 'none' }}>{company.phone}</a></p>
+              <p><a href={`tel:${company.phoneHref2}`} style={{ color: 'inherit', textDecoration: 'none' }}>{company.phone2}</a></p>
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '10px' }}>
                 <a
                   href="https://www.facebook.com/profile.php?id=61575041172022"
