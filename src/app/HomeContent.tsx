@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Wifi, BatteryCharging, Fan, ShieldCheck, Cpu, Star, Phone, MessageSquare, Fence } from 'lucide-react';
 
@@ -20,27 +21,17 @@ import { company } from '@/lib/company';
 
 type Review = { id: number; name: string; rating: number; comment: string };
 
-// Témoignages de démarrage affichés tant qu'il n'y a pas assez de vrais avis approuvés.
-// À remplacer par des avis collectés réellement (via /admin/reviews).
+// Vrais avis Google (fiche LA SYMPHONIE ÉLECTRIQUE, Thyez) — 5/5 chacun.
+// Affichés par défaut ; remplacés par les avis approuvés en base s'il y en a assez.
 const demoReviews: Review[] = [
-  {
-    id: -1,
-    name: 'Marc D. — Cluses',
-    rating: 5,
-    comment: "Intervention rapide pour un dépannage urgent un dimanche soir. Diagnostic clair, devis transparent, tarif honnête. Très professionnel — je recommande sans hésiter.",
-  },
-  {
-    id: -2,
-    name: 'Sophie L. — Sallanches',
-    rating: 5,
-    comment: "Installation complète du tableau électrique de notre appartement. Travail soigné, chantier propre, attestation Consuel sans souci. Une équipe vraiment à l'écoute.",
-  },
-  {
-    id: -3,
-    name: 'Karim B. — Annemasse',
-    rating: 5,
-    comment: "Pose d'une borne de recharge IRVE 7,4 kW dans mon garage. Démarches ADVENIR gérées de A à Z, intervention en une demi-journée. Aucun mauvaise surprise.",
-  },
+  { id: -1, name: 'Claudine Sauce', rating: 5, comment: "Merci pour l'installation rapide et les conseils. Très professionnel je recommande les yeux fermés !" },
+  { id: -2, name: 'ION ERDIC', rating: 5, comment: 'Très réactif, travail soigné et de qualité. À garder dans les contacts.' },
+  { id: -3, name: 'Orianne Aymard', rating: 5, comment: "Jaber est intervenu à deux reprises dans deux logements différents pour permettre l'accès à la fibre, alors que les techniciens Orange n'avaient pas réussi à résoudre le problème. À chaque fois, il a été très efficace et a su trouver des solutions là où d'autres bloquaient. Son travail est soigné, rapide et vraiment professionnel. En plus de ses compétences techniques, Jaber est très sympathique, ponctuel et agréable dans les échanges. Je le recommande vivement !" },
+  { id: -4, name: 'Itidel Smati', rating: 5, comment: "Jaber fait preuve d'un grand professionnalisme et d'un réel sérieux. Son travail est soigné, transparent et de qualité. Je le recommande sans hésitation. Bonne continuation." },
+  { id: -5, name: 'Selima Kadri', rating: 5, comment: 'Jaber est super professionnel, je ne peux que vous le recommander les yeux fermés. Travail de qualité, réalisé avec honnêteté. Bonne continuation pour la suite.' },
+  { id: -6, name: 'Guillaume Chappaz', rating: 5, comment: 'Jaber est un super professionnel, disponible et juste dans ses devis et interventions.' },
+  { id: -7, name: 'Benjamin Lazzari', rating: 5, comment: "Excellente expérience avec La Symphonie Électrique et son dirigeant Jaber. Professionnel, réactif et à l'écoute du client. Le travail est soigné, réalisé dans les délais et avec de très bons conseils tout au long du projet. On sent un vrai savoir-faire et une passion pour le métier. Je recommande vivement cette société pour tous vos travaux électriques." },
+  { id: -8, name: 'michel Angelo', rating: 5, comment: 'Je le recommande vivement, très compétent et toujours disponible.' },
 ];
 
 const services = [
@@ -71,11 +62,12 @@ const services = [
   },
 ];
 
+const REVIEW_LIMIT = 170;
+
 export default function HomeContent({ reviews }: { reviews: Review[] }) {
-  // Si peu de vrais avis, on complète avec les démos jusqu'à 3 cartes.
-  const displayedReviews: Review[] = reviews.length >= 3
-    ? reviews.slice(0, 6)
-    : [...reviews, ...demoReviews].slice(0, 3);
+  const [openReview, setOpenReview] = useState<number | null>(null);
+  // Avis approuvés en base si assez nombreux, sinon les vrais avis Google par défaut.
+  const displayedReviews: Review[] = (reviews.length >= 3 ? reviews : demoReviews).slice(0, 6);
 
   return (
     <main>
@@ -252,7 +244,24 @@ export default function HomeContent({ reviews }: { reviews: Review[] }) {
                     <Star key={s} size={16} fill="var(--accent-gold)" className="text-gold" />
                   ))}
                 </div>
-                <p style={{ fontStyle: 'italic', marginBottom: '20px' }}>&laquo;&nbsp;{review.comment}&nbsp;&raquo;</p>
+                {(() => {
+                  const isLong = review.comment.length > REVIEW_LIMIT;
+                  const isOpen = openReview === i;
+                  const shown = isLong && !isOpen ? review.comment.slice(0, REVIEW_LIMIT).trimEnd() + '…' : review.comment;
+                  return (
+                    <>
+                      <p style={{ fontStyle: 'italic', marginBottom: isLong ? '8px' : '20px' }}>&laquo;&nbsp;{shown}&nbsp;&raquo;</p>
+                      {isLong && (
+                        <button
+                          onClick={() => setOpenReview(isOpen ? null : i)}
+                          style={{ background: 'none', border: 'none', color: 'var(--accent-gold)', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, marginBottom: '16px', padding: 0 }}
+                        >
+                          {isOpen ? 'voir moins' : 'voir plus'}
+                        </button>
+                      )}
+                    </>
+                  );
+                })()}
                 <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{review.name}</div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Client vérifié</div>
               </motion.div>
