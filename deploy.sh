@@ -33,7 +33,7 @@ if [ ! -f .env.local ]; then
   cat > .env.local <<EOF
 JWT_SECRET=$(openssl rand -base64 48)
 NEXT_PUBLIC_BASE_URL=https://lasymphonieelectrique.fr
-NEXT_PUBLIC_COMPANY_LEGAL_FORM=Entrepreneur Individuel
+NEXT_PUBLIC_COMPANY_LEGAL_FORM="Entrepreneur Individuel"
 NEXT_PUBLIC_COMPANY_EMAIL=contact@lasymphonieelectrique.fr
 NEXT_PUBLIC_COMPANY_ADDRESS="74300 Cluses, Haute-Savoie"
 NEXT_PUBLIC_COMPANY_CITY=Cluses
@@ -51,7 +51,7 @@ cp -r public .next/standalone/public
 cp -r .next/static .next/standalone/.next/static
 
 echo "==> 5/6 Démarrage avec pm2"
-set -a; source .env.local; set +a
+export JWT_SECRET="$(grep -E '^JWT_SECRET=' .env.local | cut -d= -f2-)"
 export NODE_ENV=production PORT=3000 HOSTNAME=0.0.0.0
 pm2 delete symphonie >/dev/null 2>&1 || true
 pm2 start .next/standalone/server.js --name symphonie --update-env
