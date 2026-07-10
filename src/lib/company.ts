@@ -11,8 +11,8 @@ export const company = {
   email: process.env.NEXT_PUBLIC_COMPANY_EMAIL || 'contact@lasymphonieelectrique.fr',
   phone: process.env.NEXT_PUBLIC_COMPANY_PHONE || '+33 6 08 84 16 62',
   phoneHref: (process.env.NEXT_PUBLIC_COMPANY_PHONE || '+33 6 08 84 16 62').replace(/[^\d+]/g, ''),
-  phone2: process.env.NEXT_PUBLIC_COMPANY_PHONE2 || '06 46 44 34 12',
-  phoneHref2: (process.env.NEXT_PUBLIC_COMPANY_PHONE2 || '0646443412').replace(/[^\d+]/g, ''),
+  phone2: process.env.NEXT_PUBLIC_COMPANY_PHONE2 || '+33 6 46 44 34 12',
+  phoneHref2: (process.env.NEXT_PUBLIC_COMPANY_PHONE2 || '+33646443412').replace(/[^\d+]/g, ''),
   // Numéro WhatsApp au format international sans + ni espaces (ex: 33612345678).
   // Fallback : dérivé du téléphone si non précisé.
   whatsapp:
