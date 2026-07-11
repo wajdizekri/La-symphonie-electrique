@@ -75,18 +75,18 @@ export default function Services() {
               <motion.div 
                 key={service.id}
                 whileHover={{ scale: 1.02 }}
-                className="card"
+                className="card service-card"
                 style={{ padding: '40px', display: 'flex', gap: '30px', alignItems: 'flex-start' }}
               >
-                <div style={{ padding: '15px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '15px' }}>
+                <div className="service-icon" style={{ padding: '15px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '15px' }}>
                   {service.icon}
                 </div>
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
                     {service.tagline}
                   </span>
                   <h2 style={{ fontSize: '1.75rem', margin: '5px 0 15px' }}>{service.title}</h2>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '25px' }}>
+                  <div className="service-items" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '25px' }}>
                     {service.items.map((item, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
                         <CheckCircle2 size={14} className="text-gold" /> {item}

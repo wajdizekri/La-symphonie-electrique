@@ -42,26 +42,26 @@ export default function CookieBanner() {
             justifyContent: 'center'
           }}
         >
-          <div className="card" style={{ 
-            maxWidth: '800px', 
-            padding: '20px 30px', 
-            display: 'flex', 
-            alignItems: 'center', 
+          <div className="card cookie-card" style={{
+            maxWidth: '800px',
+            padding: '20px 30px',
+            display: 'flex',
+            alignItems: 'center',
             gap: '30px',
             boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
             border: '1px solid var(--accent-gold)'
           }}>
-            <ShieldCheck className="text-gold" size={40} />
+            <ShieldCheck className="text-gold cookie-icon" size={40} />
             <div style={{ flex: 1 }}>
               <h4 style={{ margin: '0 0 5px 0' }}>Respect de votre vie privée</h4>
               <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)' }}>
                 Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant, vous acceptez notre politique de confidentialité.
               </p>
             </div>
-            <div style={{ display: 'flex', gap: '15px' }}>
-              <button 
+            <div className="cookie-actions" style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+              <button
                 onClick={acceptCookies}
-                className="btn btn-primary" 
+                className="btn btn-primary"
                 style={{ padding: '8px 20px', whiteSpace: 'nowrap' }}
               >
                 Accepter

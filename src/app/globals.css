@@ -165,6 +165,74 @@ button {
   gap: var(--spacing-md);
 }
 
+/* ===== Navbar ===== */
+.site-nav {
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--border);
+  background-color: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.brand-white { color: var(--text-primary); }
+.brand-gold { color: var(--accent-gold); }
+
+.nav-links {
+  display: flex;
+  gap: var(--spacing-xl);
+  align-items: center;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.nav-link:hover { color: var(--accent-gold); }
+
+.nav-cta { padding: 8px 20px; }
+
+.nav-pro {
+  margin-left: 10px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-pro-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+.nav-burger {
+  display: none;
+  color: var(--text-primary);
+  padding: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -198,4 +266,113 @@ button {
     width: 50px !important;
     height: 50px !important;
   }
+
+  /* --- Navbar : menu burger --- */
+  .nav-burger { display: inline-flex; }
+
+  .nav-brand {
+    font-size: 0.95rem;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  /* réduit le logo (taille posée en style inline par le composant) */
+  .nav-brand > span:first-child {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 4px var(--spacing-lg) var(--spacing-lg);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  .nav-links.open { display: flex; }
+
+  .nav-links .nav-link {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 1rem;
+    color: var(--text-primary);
+  }
+
+  .nav-cta {
+    margin-top: 16px;
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+
+  .nav-pro {
+    margin-left: 0;
+    margin-top: 16px;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  /* --- Grilles & cartes --- */
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .card { padding: var(--spacing-lg); }
+
+  .grid { gap: var(--spacing-lg); }
+
+  .container { padding: 0 var(--spacing-md); }
+
+  .section { padding: var(--spacing-xl) 0; }
+
+  /* Titres de section (posés en style inline à 2.5rem) */
+  h2 { font-size: 1.75rem !important; }
+  h3 { font-size: 1.25rem !important; }
+
+  /* Boutons pleine largeur, plus faciles à toucher */
+  .btn { padding: 0.85rem 1.25rem; }
+
+  /* --- Bandeau cookies --- */
+  .cookie-card {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 14px !important;
+    padding: 16px !important;
+  }
+
+  .cookie-icon { display: none; }
+
+  /* boutons à gauche : évite de passer sous les boutons flottants (WhatsApp/appel) */
+  .cookie-actions {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 22px !important;
+    padding-right: 72px;
+  }
+
+  /* --- Bloc CTA de bas de page (Dépannage / Devis / Contact) --- */
+  .cta-block { text-align: center !important; }
+  .cta-social { justify-content: center !important; }
+
+  /* --- Page Services : cartes trop larges pour un écran étroit --- */
+  .service-card {
+    padding: var(--spacing-lg) !important;
+    gap: var(--spacing-md) !important;
+  }
+
+  .service-icon { padding: 10px !important; }
+
+  .service-items { grid-template-columns: 1fr !important; }
+
+  /* classe utilisée dans le markup mais jamais définie : éléments décoratifs à masquer */
+  .hidden-mobile { display: none !important; }
 }
