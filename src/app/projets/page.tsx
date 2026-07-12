@@ -5,17 +5,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { CheckCircle2, ArrowRight, Star, Quote } from 'lucide-react';
+import { googleReviews } from '@/lib/reviews-google';
 
 type Review = { id: number; name: string; rating: number; comment: string };
 
 export default function Projets() {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  // Avis Google par défaut : la section n'est jamais vide, même si la base ne renvoie rien.
+  // On privilégie les avis courts pour garder des cartes de hauteur homogène.
+  const [reviews, setReviews] = useState<Review[]>(
+    googleReviews.filter(r => r.comment.length <= 200).slice(0, 3)
+  );
 
   useEffect(() => {
     fetch('/api/reviews?status=approved')
       .then(r => r.ok ? r.json() : [])
-      .then((data: Review[]) => setReviews(Array.isArray(data) ? data.slice(0, 3) : []))
-      .catch(() => setReviews([]));
+      .then((data: Review[]) => {
+        if (Array.isArray(data) && data.length >= 3) setReviews(data.slice(0, 3));
+      })
+      .catch(() => { /* on garde les avis par défaut */ });
   }, []);
 
   const projects = [
@@ -69,8 +76,8 @@ export default function Projets() {
             <motion.h1 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-gold" 
-              style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '20px' }}
+              className="text-gold"
+              style={{ fontSize: 'clamp(2rem, 7vw, 3.5rem)', fontWeight: 900, marginBottom: '20px' }}
             >
               Nos Réalisations
             </motion.h1>
@@ -84,24 +91,25 @@ export default function Projets() {
             </motion.p>
           </header>
 
-          <div style={{ display: 'grid', gap: '100px' }}>
+          <div className="projects-list" style={{ display: 'grid', gap: '100px' }}>
             {projects.map((project, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                style={{ 
-                  display: 'grid', 
+                className="project-row"
+                style={{
+                  display: 'grid',
                   gridTemplateColumns: index % 2 === 0 ? '1.1fr 0.9fr' : '0.9fr 1.1fr',
                   gap: '60px',
                   alignItems: 'center'
                 }}
               >
                 {index % 2 !== 0 && (
-                  <div style={{ padding: '20px' }}>
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                  <div className="project-text" style={{ padding: '20px' }}>
+                    <div className="project-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
                       {project.tags.map(tag => (
                         <span key={tag} style={{ fontSize: '0.75rem', fontWeight: 700, padding: '6px 16px', borderRadius: 'var(--radius-full)', border: '1px solid var(--accent-gold)', color: 'var(--accent-gold)', textTransform: 'uppercase', letterSpacing: '1px' }}>
                           {tag}
@@ -125,10 +133,10 @@ export default function Projets() {
                   </div>
                 )}
 
-                <div style={{ 
-                  position: 'relative', 
-                  height: '500px', 
-                  borderRadius: 'var(--radius-xl)', 
+                <div className="project-media" style={{
+                  position: 'relative',
+                  height: '500px',
+                  borderRadius: 'var(--radius-xl)',
                   overflow: 'hidden',
                   boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
                   border: '1px solid var(--border)'
@@ -139,10 +147,10 @@ export default function Projets() {
                     fill 
                     style={{ objectFit: 'cover' }} 
                   />
-                  <div style={{ 
-                    position: 'absolute', 
-                    top: '20px', 
-                    right: '20px', 
+                  <div className="project-badge" style={{
+                    position: 'absolute',
+                    top: '20px',
+                    right: '20px',
                     backgroundColor: 'rgba(2, 6, 23, 0.9)',
                     padding: '10px 20px',
                     borderRadius: 'var(--radius-md)',
@@ -156,8 +164,8 @@ export default function Projets() {
                 </div>
 
                 {index % 2 === 0 && (
-                  <div style={{ padding: '20px' }}>
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                  <div className="project-text" style={{ padding: '20px' }}>
+                    <div className="project-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
                       {project.tags.map(tag => (
                         <span key={tag} style={{ fontSize: '0.75rem', fontWeight: 700, padding: '6px 16px', borderRadius: 'var(--radius-full)', border: '1px solid var(--accent-gold)', color: 'var(--accent-gold)', textTransform: 'uppercase', letterSpacing: '1px' }}>
                           {tag}
@@ -226,10 +234,10 @@ export default function Projets() {
       </section>
 
       {/* CTA Section */}
-      <section className="section text-center" style={{ padding: '100px 0' }}>
+      <section className="section text-center cta-section" style={{ padding: '100px 0' }}>
         <div className="container">
           <h2 style={{ fontSize: '3rem', marginBottom: '30px', fontWeight: 900 }}>Prêt à devenir notre prochaine <span className="text-gold">réussite ?</span></h2>
-          <Link href="/contact" className="btn btn-primary" style={{ padding: '1.25rem 4rem', fontSize: '1.25rem' }}>
+          <Link href="/contact" className="btn btn-primary cta-btn" style={{ padding: '1.25rem 4rem', fontSize: '1.25rem' }}>
             Lancer mon projet maintenant
           </Link>
         </div>

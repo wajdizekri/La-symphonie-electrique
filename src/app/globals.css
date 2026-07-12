@@ -375,4 +375,33 @@ button {
 
   /* classe utilisée dans le markup mais jamais définie : éléments décoratifs à masquer */
   .hidden-mobile { display: none !important; }
+
+  /* --- Page Realisations : 2 colonnes figees + images de 500px --- */
+  .projects-list { gap: 56px !important; }
+
+  .project-row {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-lg) !important;
+  }
+
+  .project-media { height: 240px !important; }
+
+  .project-text { padding: 0 !important; }
+
+  .project-badge {
+    top: 12px !important;
+    right: 12px !important;
+    padding: 6px 12px !important;
+    font-size: 0.65rem !important;
+  }
+
+  /* gros bouton d'appel a l'action (padding 4rem en dur) */
+  .cta-section { padding: var(--spacing-xxl) 0 !important; }
+
+  .cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 1.25rem !important;
+    font-size: 1rem !important;
+  }
 }
