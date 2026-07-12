@@ -27,7 +27,7 @@ export default function AdminPayments() {
         </div>
       </header>
 
-      <div className="grid" style={{ gap: 'var(--spacing-md)' }}>
+      <div className="grid" style={{ gap: 'var(--spacing-md)', overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 10px' }}>
           <thead>
             <tr style={{ textAlign: 'left', color: 'var(--text-muted)', fontSize: '0.85rem' }}>

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { LayoutDashboard, Users, FileText, Briefcase, CreditCard, LogOut, ShieldCheck, Star, UserCog } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Briefcase, CreditCard, LogOut, ShieldCheck, Star, UserCog, Menu, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from '@/components/Logo';
@@ -12,6 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
   const [counts, setCounts] = useState<Counts>({ requests: 0, reviews: 0, users: 0, payments: 0 });
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Récupère les compteurs au chargement et à chaque changement de page (refresh).
   useEffect(() => {
@@ -26,6 +27,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const id = setInterval(fetchCounts, 60_000); // refresh toutes les minutes
     return () => { cancelled = true; clearInterval(id); };
   }, [pathname]);
+
+  // Referme le menu mobile quand on change de page
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
@@ -44,6 +48,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Mon compte', icon: <UserCog size={20} />, href: '/admin/account', badge: 0 },
   ];
 
+  const totalBadges = counts.requests + counts.reviews + counts.users + counts.payments;
+
   const isAuthPage =
     pathname === '/admin/login' ||
     pathname === '/admin/register' ||
@@ -55,17 +61,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--bg-primary)' }}>
+    <div className="admin-shell" style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--bg-primary)' }}>
+      {/* Barre du haut — mobile uniquement */}
+      <header className="admin-topbar">
+        <Link href="/admin/dashboard" className="admin-topbar-brand">
+          <Logo size={32} />
+          <span>SYMPHONIE ADMIN</span>
+        </Link>
+        <button
+          type="button"
+          className="admin-burger"
+          aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          {!menuOpen && totalBadges > 0 && <span className="admin-burger-dot" />}
+        </button>
+      </header>
+
+      {/* Voile de fermeture — mobile uniquement */}
+      {menuOpen && <div className="admin-overlay" onClick={() => setMenuOpen(false)} />}
+
       {/* Sidebar */}
-      <aside style={{
-        width: '260px',
-        borderRight: '1px solid var(--border)',
-        padding: 'var(--spacing-xl)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--spacing-xxl)'
-      }}>
-        <Link href="/" style={{
+      <aside className={menuOpen ? 'admin-sidebar open' : 'admin-sidebar'}>
+        <Link href="/" className="admin-sidebar-brand" style={{
           display: 'flex',
           alignItems: 'center',
           gap: 'var(--spacing-sm)',
@@ -84,6 +104,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => setMenuOpen(false)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -142,7 +163,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content */}
-      <main style={{ flex: 1, padding: 'var(--spacing-xxl)', overflowY: 'auto' }}>
+      <main className="admin-main" style={{ flex: 1, padding: 'var(--spacing-xxl)', overflowY: 'auto' }}>
         {children}
       </main>
     </div>

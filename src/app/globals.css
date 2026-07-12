@@ -233,6 +233,122 @@ button {
   justify-content: center;
 }
 
+/* ===== Espace pro (back-office) ===== */
+.admin-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+  background-color: var(--bg-primary);
+}
+
+/* Barre du haut et voile : mobile uniquement */
+.admin-topbar,
+.admin-overlay { display: none; }
+
+@media (max-width: 900px) {
+  .admin-shell { display: block !important; }
+
+  .admin-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    padding: 10px var(--spacing-md);
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 120;
+  }
+
+  .admin-topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    min-width: 0;
+  }
+
+  .admin-burger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    color: var(--text-primary);
+    flex-shrink: 0;
+  }
+
+  /* pastille : des elements demandent une action */
+  .admin-burger-dot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 9px;
+    height: 9px;
+    border-radius: var(--radius-full);
+    background-color: var(--accent-gold);
+    border: 2px solid var(--bg-secondary);
+  }
+
+  /* la sidebar devient un tiroir coulissant */
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 262px;
+    max-width: 82vw;
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+    gap: var(--spacing-xl);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .admin-sidebar.open { transform: translateX(0); }
+
+  .admin-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    z-index: 150;
+  }
+
+  .admin-main { padding: var(--spacing-md) !important; }
+
+  /* Les tableaux gardent une largeur lisible et defilent horizontalement
+     dans leur conteneur, au lieu d'ecraser les colonnes. */
+  .admin-main table { min-width: 560px; }
+
+  /* Les en-tetes de page respirent moins */
+  .admin-main h1 { font-size: 1.5rem !important; }
+
+  /* En-tete de page : titre au-dessus, boutons en dessous (au lieu de les ecraser) */
+  .admin-main header {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: var(--spacing-md);
+  }
+
+  .admin-main header > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* les libelles de boutons ne se coupent plus en plusieurs lignes */
+  .admin-main .btn { white-space: nowrap; }
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

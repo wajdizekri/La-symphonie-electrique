@@ -168,6 +168,7 @@ export default async function AdminProjectDetail({ params }: { params: Promise<{
               Aucune facture pour ce projet. Crée-en une depuis la liste des projets.
             </p>
           ) : (
+            <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ backgroundColor: 'rgba(255,255,255,0.02)', textAlign: 'left' }}>
@@ -208,6 +209,7 @@ export default async function AdminProjectDetail({ params }: { params: Promise<{
                 })}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>
