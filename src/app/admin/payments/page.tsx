@@ -43,17 +43,17 @@ export default function AdminPayments() {
           <tbody>
             {payments.length > 0 ? payments.map((payment) => (
               <tr key={payment.id} className="card" style={{ display: 'table-row', border: 'none' }}>
-                <td style={{ padding: '20px', borderRadius: 'var(--radius-md) 0 0 var(--radius-md)' }}>
+                <td data-label="Projet / Client" style={{ padding: '20px', borderRadius: 'var(--radius-md) 0 0 var(--radius-md)' }}>
                   <div style={{ fontWeight: 600 }}>{payment.project_title}</div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{payment.client_name}</div>
                 </td>
-                <td style={{ padding: '20px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                <td data-label="Montant" style={{ padding: '20px', fontWeight: 800, color: 'var(--text-primary)' }}>
                   {payment.amount.toLocaleString('fr-FR')}€
                 </td>
-                <td style={{ padding: '20px', fontSize: '0.875rem' }}>
+                <td data-label="Date" style={{ padding: '20px', fontSize: '0.875rem' }}>
                   {new Date(payment.created_at).toLocaleDateString()}
                 </td>
-                <td style={{ padding: '20px' }}>
+                <td data-label="Statut" style={{ padding: '20px' }}>
                   <span style={{ 
                     padding: '6px 12px', 
                     borderRadius: 'var(--radius-full)', 
@@ -69,12 +69,12 @@ export default function AdminPayments() {
                     {payment.status === 'paid' ? 'Payé' : 'En attente'}
                   </span>
                 </td>
-                <td style={{ padding: '20px' }}>
+                <td data-label="Méthode" style={{ padding: '20px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem' }}>
                     <CreditCard size={16} className="text-blue" /> Stripe
                   </div>
                 </td>
-                <td style={{ padding: '20px' }}>
+                <td data-label="Facture" style={{ padding: '20px' }}>
                   <Link
                     href={`/admin/payments/${payment.id}/invoice`}
                     target="_blank"
@@ -84,7 +84,7 @@ export default function AdminPayments() {
                     <FileText size={14} /> PDF
                   </Link>
                 </td>
-                <td style={{ padding: '20px', borderRadius: '0 var(--radius-md) var(--radius-md) 0' }}>
+                <td data-label="Actions" style={{ padding: '20px', borderRadius: '0 var(--radius-md) var(--radius-md) 0' }}>
                   <RowDeletePayment
                     id={payment.id}
                     amount={payment.amount}

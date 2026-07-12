@@ -184,17 +184,17 @@ export default async function AdminProjectDetail({ params }: { params: Promise<{
                   const b = statusBadge(p.status);
                   return (
                     <tr key={p.id} style={{ borderTop: '1px solid var(--border)' }}>
-                      <td style={{ padding: '12px 20px', fontSize: '0.875rem' }}>{new Date(p.created_at).toLocaleDateString('fr-FR')}</td>
-                      <td style={{ padding: '12px 20px', fontWeight: 700 }}>{p.amount.toFixed(2)} €</td>
-                      <td style={{ padding: '12px 20px' }}>
+                      <td data-label="Date" style={{ padding: '12px 20px', fontSize: '0.875rem' }}>{new Date(p.created_at).toLocaleDateString('fr-FR')}</td>
+                      <td data-label="Montant" style={{ padding: '12px 20px', fontWeight: 700 }}>{p.amount.toFixed(2)} €</td>
+                      <td data-label="Statut" style={{ padding: '12px 20px' }}>
                         <span style={{ padding: '3px 10px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700, backgroundColor: b.bg, color: b.fg }}>
                           {b.label}
                         </span>
                       </td>
-                      <td style={{ padding: '12px 20px', fontSize: '0.7rem', fontFamily: 'monospace', color: 'var(--text-muted)' }}>
+                      <td data-label="Stripe" style={{ padding: '12px 20px', fontSize: '0.7rem', fontFamily: 'monospace', color: 'var(--text-muted)' }}>
                         {p.stripe_session_id ? `${p.stripe_session_id.slice(0, 24)}…` : '—'}
                       </td>
-                      <td style={{ padding: '12px 20px' }}>
+                      <td data-label="Facture" style={{ padding: '12px 20px' }}>
                         <Link
                           href={`/admin/payments/${p.id}/invoice`}
                           target="_blank"

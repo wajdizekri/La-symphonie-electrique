@@ -289,12 +289,12 @@ export default function AdminDashboard() {
             <tbody>
               {pendingRequests.length > 0 ? pendingRequests.map((req, i) => (
                 <tr key={i} style={{ borderBottom: '1px solid var(--border)' }} className="table-row">
-                  <td style={{ padding: '15px 25px', fontWeight: 600, color: 'white' }}>{req.name}</td>
-                  <td style={{ padding: '15px 25px', color: 'var(--text-secondary)' }}>{req.service_type}</td>
-                  <td style={{ padding: '15px 25px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                  <td data-label="Client" style={{ padding: '15px 25px', fontWeight: 600, color: 'white' }}>{req.name}</td>
+                  <td data-label="Service" style={{ padding: '15px 25px', color: 'var(--text-secondary)' }}>{req.service_type}</td>
+                  <td data-label="Date" style={{ padding: '15px 25px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                     {new Date(req.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                   </td>
-                  <td style={{ padding: '15px 25px' }}>
+                  <td data-label="Statut" style={{ padding: '15px 25px' }}>
                     <span style={{ 
                       padding: '4px 12px', 
                       borderRadius: '20px', 

@@ -60,11 +60,11 @@ export default async function AdminClients({
             <tbody>
               {clients.length > 0 ? clients.map((client) => (
                 <tr key={client.id} style={{ borderBottom: '1px solid var(--border)' }} className="table-row">
-                  <td style={{ padding: '15px 25px' }}>
+                  <td data-label="Client" style={{ padding: '15px 25px' }}>
                     <div style={{ fontWeight: 700, color: 'white' }}>{client.name}</div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>ID&nbsp;: #{client.id}</div>
                   </td>
-                  <td style={{ padding: '15px 25px' }}>
+                  <td data-label="Contact" style={{ padding: '15px 25px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', marginBottom: '4px' }}>
                       <Mail size={14} className="text-gold" /> {client.email || '—'}
                     </div>
@@ -72,12 +72,12 @@ export default async function AdminClients({
                       <Phone size={14} className="text-gold" /> {client.phone || 'Non renseigné'}
                     </div>
                   </td>
-                  <td style={{ padding: '15px 25px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                  <td data-label="Localisation" style={{ padding: '15px 25px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <MapPin size={14} /> {client.address || '—'}
                     </div>
                   </td>
-                  <td style={{ padding: '15px 25px' }}>
+                  <td data-label="Actions" style={{ padding: '15px 25px' }}>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                       <ClientActions mode="edit" client={client} />
                       <Link

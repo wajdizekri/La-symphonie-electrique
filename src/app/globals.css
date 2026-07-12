@@ -325,9 +325,75 @@ button {
 
   .admin-main { padding: var(--spacing-md) !important; }
 
-  /* Les tableaux gardent une largeur lisible et defilent horizontalement
-     dans leur conteneur, au lieu d'ecraser les colonnes. */
-  .admin-main table { min-width: 560px; }
+  /* --- Tableaux : chaque ligne devient une carte lisible (plus de defilement lateral) --- */
+  .admin-main table {
+    display: block;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    border-spacing: 0 !important;
+    border-collapse: collapse !important;
+  }
+
+  .admin-main thead { display: none; }
+
+  .admin-main tbody,
+  .admin-main tr,
+  .admin-main td { display: block; }
+
+  .admin-main tr {
+    display: block !important;
+    margin-bottom: 12px;
+    padding: 4px 2px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-secondary);
+  }
+
+  .admin-main td {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    text-align: right;
+    padding: 10px 14px !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    /* les longues valeurs (emails, adresses) se coupent au lieu d'elargir la carte */
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+
+  .admin-main td > * { min-width: 0; max-width: 100%; }
+
+  .admin-main tr td:last-child { border-bottom: none; }
+
+  /* le nom de la colonne apparait a gauche de la valeur */
+  .admin-main td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ligne "aucun resultat" : pas de libelle, centree */
+  .admin-main td[colspan] {
+    display: block !important;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  .admin-main td[colspan]::before { content: none; }
+
+  /* --- Toutes les grilles a colonnes fixes passent en 1 colonne --- */
+  .admin-main [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
 
   /* Les en-tetes de page respirent moins */
   .admin-main h1 { font-size: 1.5rem !important; }
